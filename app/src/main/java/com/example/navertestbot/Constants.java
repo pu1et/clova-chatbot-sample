@@ -32,6 +32,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
 import java.util.concurrent.CountDownLatch;
@@ -43,6 +44,9 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
 public class Constants {
+    public static final int LEFT_MSG = 0;
+    public static final int RIGHT_MSG = 1;
+
     public final static String Chatbot_URL = "https://6e0e011f4b514540b7793dd5005492bd.apigw.ntruss.com/custom/v1/3611/d1df14c67ffdde8e9444cba9b473cb9959a356162d3212753963acb6513eb132";
 
     public final static String Chatbot_svKey = "RlN3QXZuQ1hRTE5PU0pNSndzT3JJUkFKcmpvQ0dCV1k=";
@@ -143,5 +147,26 @@ public class Constants {
             return null;
         }
 
+    }
+
+    public static String ext_from_openMsg(String str){
+        JSONObject ret = null;
+        try {
+            ret = new JSONObject(str);
+            return ret.getJSONArray("bubbles").getJSONObject(0).getJSONObject("data").getJSONObject("cover").getJSONObject("data").getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public static String ext_from_sendMsg(String str){ //단순 질문, not scenario
+        JSONObject ret = null;
+        try {
+            ret = new JSONObject(str);
+            return ret.getJSONArray("bubbles").getJSONObject(0).getJSONObject("data").getString("description");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
